@@ -1,34 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BonziWORLD Classic</title>
-  <link rel="icon" href="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/favicons/favicon.ico">
-  <style>
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
+  <meta charset="utf-8" />
+  <meta content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
 
-    #cont {
-      position:fixed; 
-      top:0; 
-      left:0; 
-      bottom:0; 
-      right:0; 
-      width:100%; 
-      height:100%; 
-      border:none; 
-      margin:0; 
-      padding:0; 
-      overflow:hidden;
-    }
-  </style>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+  <link rel="stylesheet" type="text/css" href="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/css/client.css">
+
+  <link rel="icon" type="image/png" href="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/favicons/favicon-32x32.png" sizes="32x32">
+  <link rel="manifest" href="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/favicons/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/lib/easeljs.min.js"></script>
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/lib/preloadjs-0.6.2.min.js"></script>
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/lib/jquery.min.js"></script>
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/lib/seedrandom.min.js"></script>
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/lib/socket.io-1.4.5.js"></script>
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/lib/speakjs/speakClient.js"></script>
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/lib/jquery.contextMenu.min.js"></script>
+
+
+
+  <script src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/js/hax.js" ></script>
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 </head>
 <body>
-  <iframe id="cont" src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/"></iframe>
+  <div id="content">
+
+    <div id="room_info">
+      <div style="display:flex;position:relative;right:5%;visibility: visible;">No-rules-mode<p style="font-size:6px;">TM</p>&#160 is on, do /pope and use javascript as you please.</div>
+      <p id="users_online">Users online: 0</p>
+      Room ID - <p class="room_id">???</p><br>
+      <p id="room_public">This room is public.</p>
+      <p id="room_private">This room is private.</p>
+      <p id="room_owner"><br>You are the owner of this room.</p>
+    </div>
+
+    <canvas id="bonzi_canvas" width="100" height="100"></canvas>
+
+    <table id="chat_bar"><tr>
+      <td id="chat_send">send</td>
+      <td id="chat_message_cont"><input id="chat_message" type="text" placeholder="Enter a message"></td>
+      <td id="chat_tray">
+        <div id="btn_tile" class="tray_btn"></div>
+      </td>
+    </tr></table>
+
+
+    <div id="page_login" class="page">
+      <div id="login_apps" class="app_showcase"></div>
+      <div id="login_readme">Shitty Open Source Replit Server Award <br> [JAVASCRIPT HACKZ, FREE POPE: ENABLED] (turning off in <b>4</b> hours) <br> The MAIN,  BonziWORLD server: <a href="https://bonziworld.org/">bonziworld.org</a><br>(message to Layla the pedophile: bonziworld xp isnt discontinued it releases in august btw)</div>
+      <div id="login_card" style="display:none">
+        <input id="login_name" type="text" placeholder="Nickname">
+        <input id="login_room" type="text" placeholder="Room ID (Optional)">
+        <div id="login_go"></div>
+        <div id="login_error" style="display:none"></div>
+      </div>
+      <div id="login_load">loading</div>
+      <div id="login_version" style="font-size: 20px;">
+        Version 1.7.0
+      </div>
+    </div>
+
+    <div id="page_error" class="page" style="display:none;">
+      <div id="error_cont" class="message_cont">
+        <img src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/img/error/logo.png"><br>
+        <br>
+        <h3>BonziWORLD.exe has encountered an error and needs to close.</h3><br>
+        Nah, but seriously there was an error and you got disconnected from the server. Chances are, your internet just died out for a brief moment or your device went to sleep. Otherwise the server just screwed up.<br>
+        <br>
+        Try and reload the page. If that doesn't work and your internet is okay, then panic. We'll probably be back up Soon™ though.<br>
+        <br>
+        <a href="#" onclick="window.location.reload()">Reload?</a><br>
+        <br>
+        Room ID - <span class="room_id">???</span><br>
+      </div>
+    </div>
+    <div id="page_ban" class="page" style="display:none;">
+      <div id="ban_cont" class="message_cont">
+        <img src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/img/ban/logo.png"><br>
+        <br>
+        <h3 style="">You got banned!</h3><br>
+        <br>
+        <p>Why? </p><span id="ban_reason"></span><br>
+        <p>When is it over? </p><span id="ban_end"></span><br>
+      </div>
+    </div>
+    <div id="page_kick" class="page" style="display:none">
+      <div id="kick_cont" class="message_cont">
+        <img src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/img/ban/logo.png"><br>
+        <br>
+        <h1>You got kicked!</h1><br>
+        <br>
+        <b>Why? </b><span id="ban_reason"></span><br>
+      </div>
+    </div>
+    <div id="page_unsupp" class="page" style="display:none">
+      <div id="unsupp_cont" class="message_cont">
+        <img src="https://0c61839b-7042-4c42-b4b3-7aac9b5b5882-00-wk8fvwwo71x4.kirk.replit.dev/img/error/logo.png"><br>
+        <br>
+        <h1>BonziWORLD cannot run on this platform.</h1><br>
+        Unfortunately, BonziWORLD cannot run in this browser for the following reasons:<br>
+        <ul id="unsupp_reasons"></ul>
+        You can try to download a BonziWORLD app that works on your device, or update your browser.
+        <div id="login_apps" class="app_showcase"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <ad></ad>
+
+
 </body>
 </html>
